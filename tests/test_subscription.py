@@ -1,4 +1,5 @@
 from models.subscription import Subscription
+from datetime import date
 
 def test_subscription_stores_name():
     # create a subscription and check the name was saved properly
@@ -24,3 +25,9 @@ def test_subscription_stores_last_used_date():
     # create a subscription and check the last used date was saved properly
     sub = Subscription("Netflix", 10.99, "2026-08-24", "Entertainment", "2026-08-01")
     assert sub.lastUsedDate == "2026-08-01"
+    
+def test_days_until_renewal():
+    # renewal date is set to today, so days until renewal should be 0
+    today = date.today().isoformat()
+    sub = Subscription("Netflix", 10.99, today, "Entertainment", "2026-08-01")
+    assert sub.days_until_renewal() == 0

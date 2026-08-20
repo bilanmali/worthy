@@ -1,3 +1,5 @@
+from datetime import date
+
 class Subscription:
     def __init__(self, name, cost, renewalDate, category, lastUsedDate):
         # store the subscription's name
@@ -10,3 +12,10 @@ class Subscription:
         self.category = category
         # store the subscription's last used date
         self.lastUsedDate = lastUsedDate
+        
+    def days_until_renewal(self):
+        # convert the stored renewal date (text) into an actual date
+        renewal = date.fromisoformat(self.renewalDate)
+        today = date.today()
+        # subtract to find how many days are left
+        return (renewal - today).days
