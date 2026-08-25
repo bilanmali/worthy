@@ -1,6 +1,7 @@
+from datetime import datetime
 import streamlit as st
 from models.subscription import Subscription
-from services.db import save_subscription
+from services.db import save_subscription, get_all_subscriptions
 
 st.title("worthy")
 st.write("A calmer way to decide what earns its place in your monthly budget.")
@@ -24,3 +25,12 @@ if st.button("Add subscription"):
     newSub = Subscription(name, cost, str(renewalDate), category, str(lastUsedDate))
     save_subscription(newSub)
     st.success(f"{name} added!")
+    
+
+st.subheader("Your subscriptions")
+
+subscriptions = get_all_subscriptions()
+
+for sub in subscriptions:
+    formattedRenewal = sub[2].strftime("%d/%m/%Y") if hasattr(sub[2], 'strftime') else sub[2]
+    st.write(f"{sub[0]} — £{sub[1]} — renews {formattedRenewal} — {sub[3]}")
