@@ -24,20 +24,22 @@ A calmer way to decide what earns its place in your monthly budget.
 - **python-dotenv** — environment variable handling
 
 ## Project structure
+
+```
 worthy/
 ├── models/
-│ └── subscription.py # Subscription class
+│   └── subscription.py      # Subscription class
 ├── services/
-│ ├── db.py # database connection, save, and retrieve logic
-│ └── ai.py # Groq AI verdict logic
+│   ├── db.py                 # database connection, save, and retrieve logic
+│   └── ai.py                 # Groq AI verdict logic
 ├── tests/
-│ ├── test_subscription.py
-│ ├── test_db.py
-│ └── test_ai.py
-├── app.py # Streamlit interface
+│   ├── test_subscription.py
+│   ├── test_db.py
+│   └── test_ai.py
+├── app.py                    # Streamlit interface
 ├── config.py
 └── requirements.txt
-
+```
 
 
 ## Running locally
