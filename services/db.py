@@ -25,3 +25,12 @@ def save_subscription(subscription):
     )
     connection.commit()
     connection.close()
+    
+def get_all_subscriptions():
+    # fetch every subscription currently saved in the database
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT name, cost, renewalDate, category, lastUsedDate FROM subscriptions")
+    rows = cursor.fetchall()
+    connection.close()
+    return rows
