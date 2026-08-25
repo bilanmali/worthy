@@ -14,3 +14,14 @@ def get_connection():
         database=os.getenv("DB_NAME")
     )
     return connection
+
+def save_subscription(subscription):
+    # save a subscription to the database
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute(
+        "INSERT INTO subscriptions (name, cost, renewalDate, category, lastUsedDate) VALUES (%s, %s, %s, %s, %s)",
+        (subscription.name, subscription.cost, subscription.renewalDate, subscription.category, subscription.lastUsedDate)
+    )
+    connection.commit()
+    connection.close()
