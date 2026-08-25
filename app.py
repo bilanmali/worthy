@@ -1,7 +1,8 @@
-from datetime import datetime
+from datetime import date 
 import streamlit as st
 from models.subscription import Subscription
 from services.db import save_subscription, get_all_subscriptions
+from services.ai import get_verdict
 
 st.title("worthy")
 st.write("A calmer way to decide what earns its place in your monthly budget.")
@@ -33,4 +34,12 @@ subscriptions = get_all_subscriptions()
 
 for sub in subscriptions:
     formattedRenewal = sub[2].strftime("%d/%m/%Y") if hasattr(sub[2], 'strftime') else sub[2]
+
+    # work out how many days since it was last used
+    lastUsed = sub[4]
+    daysSinceUsed = (date.today() - lastUsed).days if hasattr(lastUsed, 'strftime') else "unknown"
+
+    verdict = get_verdict(sub[0], daysSinceUsed)
+
     st.write(f"{sub[0]} — £{sub[1]} — renews {formattedRenewal} — {sub[3]}")
+    st.caption(verdict)
