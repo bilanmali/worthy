@@ -4,8 +4,22 @@ from models.subscription import Subscription
 from services.db import save_subscription, get_all_subscriptions
 from services.ai import get_verdict
 
-st.title("worthy")
-st.write("A calmer way to decide what earns its place in your monthly budget.")
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Niconne&family=Elms+Sans:wght@400;600&display=swap');
+
+    * {
+        font-family: 'Elms Sans', sans-serif !important;
+    }
+
+    h1, h1 * {
+        font-family: 'Niconne', cursive !important;
+        color: #14B8A6 !important;
+    }
+    </style>
+    <h1>worthy</h1>
+""", unsafe_allow_html=True)
+st.write("Is your subscription worth it?")
 
 st.subheader("Add a subscription")
 
