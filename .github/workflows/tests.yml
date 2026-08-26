@@ -1,0 +1,51 @@
+name: Run tests
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpassword
+          MYSQL_DATABASE: worthy
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Wait for MySQL and create table
+        run: |
+          sleep 10
+          mysql -h 127.0.0.1 -u root -ptestpassword worthy -e "
+          CREATE TABLE subscriptions (
+              id INT AUTO_INCREMENT PRIMARY KEY,
+              name VARCHAR(100),
+              cost DECIMAL(10, 2),
+              renewalDate DATE,
+              category VARCHAR(50),
+              lastUsedDate DATE
+          );"
+
+      - name: Run tests
+        env:
+          DB_HOST: 127.0.0.1
+          DB_USER: root
+          DB_PASSWORD: testpassword
+          DB_NAME: worthy
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: pytest
