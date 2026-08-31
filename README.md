@@ -28,7 +28,7 @@ An easier way to decide what earns its place in your monthly budget.
 
 ## Project structure
 
-\`\`\`
+```
 worthy/
 ├── models/
 │   └── subscription.py      # Subscription class
@@ -45,7 +45,7 @@ worthy/
 ├── app.py                    # Streamlit interface
 ├── config.py
 └── requirements.txt
-\`\`\`
+```
 
 ## Running locally
 
