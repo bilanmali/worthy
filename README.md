@@ -1,6 +1,7 @@
 # worthy
+**Live app:** [worthy-tracker.streamlit.app](https://worthy-tracker.streamlit.app)
 
-A calmer way to decide what earns its place in your monthly budget.
+A more efficient way to see which subscrption is worthy.
 
 ## What it does
 
