@@ -7,14 +7,15 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mysql:
-        image: mysql:8.0
+      postgres:
+        image: postgres:16
         env:
-          MYSQL_ROOT_PASSWORD: testpassword
-          MYSQL_DATABASE: worthy
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: testpassword
+          POSTGRES_DB: worthy
         ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=5
+          - 5432:5432
+        options: --health-cmd="pg_isready -U postgres" --health-interval=10s --health-timeout=5s --health-retries=5
 
     steps:
       - name: Check out the code
@@ -28,12 +29,12 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Wait for MySQL and create table
+      - name: Wait for Postgres and create table
         run: |
-          sleep 10
-          mysql -h 127.0.0.1 -u root -ptestpassword worthy -e "
+          sudo apt-get install -y postgresql-client
+          PGPASSWORD=testpassword psql -h 127.0.0.1 -U postgres -d worthy -c "
           CREATE TABLE subscriptions (
-              id INT AUTO_INCREMENT PRIMARY KEY,
+              id SERIAL PRIMARY KEY,
               name VARCHAR(100),
               cost DECIMAL(10, 2),
               renewalDate DATE,
@@ -44,7 +45,8 @@ jobs:
       - name: Run tests
         env:
           DB_HOST: 127.0.0.1
-          DB_USER: root
+          DB_PORT: 5432
+          DB_USER: postgres
           DB_PASSWORD: testpassword
           DB_NAME: worthy
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
