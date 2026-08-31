@@ -1,17 +1,17 @@
-import mysql.connector
+import psycopg2
 import os
 from dotenv import load_dotenv
 
-# load the values from .env into the environment
 load_dotenv()
 
 def get_connection():
-    # connect to MySQL using the details stored in .env
-    connection = mysql.connector.connect(
+    # connect to PostgreSQL using the details stored in .env
+    connection = psycopg2.connect(
         host=os.getenv("DB_HOST"),
+        port=os.getenv("DB_PORT"),
         user=os.getenv("DB_USER"),
         password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
+        dbname=os.getenv("DB_NAME")
     )
     return connection
 
