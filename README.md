@@ -1,6 +1,6 @@
 # worthy
 
-**Live app:** [worthy-tracker.streamlit.app](https://worthy-tracker.streamlit.app/)
+
 
 An easier way to decide what earns its place in your monthly budget.
 
